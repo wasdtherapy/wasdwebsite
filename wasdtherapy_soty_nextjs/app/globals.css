@@ -167,3 +167,130 @@ footer.foot a{color:var(--accent)}
 
 .layer .ltoggle{background:none;border:none;color:inherit;width:100%;padding:0;margin-bottom:6px}
 .presets{margin-bottom:6px}
+
+/* ============ readability + contrast pass ============ */
+:root{ --dim:#b4bcd2 }
+
+.lead{ color:#cdd4e6 }
+.sub{ color:#c7cedf; font-size:15.5px }
+.section-head p{ color:#c7cedf }
+.card p{ color:#c2cadd }
+.step p{ color:#c2cadd }
+.manifesto span{ color:#aab2c8 }
+.foot{ color:#aab2c8 }
+
+.note{
+  color:#d4dae9;
+  background:rgba(255,255,255,.055);
+  border-color:rgba(255,255,255,.15);
+  line-height:1.7;
+}
+.note b{ color:#fff }
+
+.eyebrow{ opacity:1; color:var(--accent) }
+
+.nav-links a{ color:#c7cedf; font-weight:500 }
+.nav-links a:hover,.nav-links a.on{ color:#fff }
+.lang-btn{ color:#dfe4f1; border-color:rgba(255,255,255,.22) }
+.lang-btn:hover{ color:#fff }
+
+/* chips: legible idle, unmistakable active */
+.chip{
+  color:#eef2ff;
+  font-weight:500;
+  background:rgba(255,255,255,.07);
+  border-color:rgba(255,255,255,.18);
+}
+.chip:hover{ color:#fff; background:rgba(255,255,255,.13); border-color:var(--accent) }
+.chip.on{
+  color:#05060b;
+  font-weight:700;
+  background:var(--accent);
+  border-color:var(--accent);
+  box-shadow:0 8px 26px -10px var(--accent);
+}
+
+/* primary + ghost buttons */
+.btn{ color:#05060b; font-weight:700; letter-spacing:.005em }
+.btn-ghost{
+  color:#fff;
+  font-weight:600;
+  background:rgba(255,255,255,.07);
+  border-color:rgba(255,255,255,.28);
+}
+.btn-ghost:hover{ color:var(--accent); background:rgba(255,255,255,.11); border-color:var(--accent) }
+
+/* player */
+.ab-btn{ color:#fff; border-color:rgba(255,255,255,.24) }
+.ab-name{ color:#c7cedf }
+
+/* mixer + affirmations */
+.layer .lname{ color:#eef2ff; font-weight:500 }
+.layer.on .lname{ color:#fff }
+.aff-cat{ opacity:1 }
+.fav{ color:#9aa3bb }
+.fav.on{ color:var(--accent) }
+
+/* ============ type + decor pass (eyes happy) ============ */
+body{ font-family:var(--font-sans),system-ui,sans-serif; letter-spacing:.002em }
+
+.hero h1,.section-head h2,.tool h1{
+  font-family:var(--font-display),Georgia,serif;
+  font-weight:500;
+  letter-spacing:-.015em;
+}
+.hero h1{ font-weight:400; letter-spacing:-.02em }
+.manifesto{ font-family:var(--font-display),Georgia,serif; font-weight:400 }
+.aff-text{ font-family:var(--font-display),Georgia,serif; font-style:italic; font-weight:400; line-height:1.2 }
+.card h3{ font-family:var(--font-display),Georgia,serif; font-weight:500; font-size:23px }
+.step h4{ font-family:var(--font-display),Georgia,serif; font-weight:500; font-size:18px }
+
+/* aurora colour washes */
+.aurora{ position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; filter:blur(70px); opacity:.42 }
+.aurora i{ position:absolute; display:block; width:48vw; height:48vw; border-radius:50%; mix-blend-mode:screen }
+.aurora i:nth-child(1){ background:radial-gradient(circle,var(--c1),transparent 62%); top:-12%; left:-6%; animation:drift1 24s ease-in-out infinite }
+.aurora i:nth-child(2){ background:radial-gradient(circle,var(--c2),transparent 62%); bottom:-18%; right:-10%; animation:drift2 30s ease-in-out infinite }
+.aurora i:nth-child(3){ background:radial-gradient(circle,var(--accent),transparent 62%); top:34%; left:42%; animation:drift3 27s ease-in-out infinite }
+@keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(8%,10%) scale(1.15)}}
+@keyframes drift2{0%,100%{transform:translate(0,0) scale(1.1)}50%{transform:translate(-10%,-6%) scale(.95)}}
+@keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-6%,8%) scale(1.2)}}
+
+/* soft glow halo behind tool pages */
+.tool{ position:relative }
+.tool::before{
+  content:""; position:absolute; top:6%; left:50%; transform:translateX(-50%);
+  width:min(92vw,760px); height:min(92vw,760px); border-radius:50%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--c2) 16%,transparent),transparent 62%);
+  filter:blur(46px); z-index:-1; pointer-events:none; animation:pulse 10s ease-in-out infinite;
+}
+
+/* glassy cards with floating glyph + gradient edge */
+.card{ backdrop-filter:blur(6px) }
+.card .ic{ font-size:36px; display:inline-block; animation:floaty 6s ease-in-out infinite }
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.card::after{
+  content:""; position:absolute; inset:0; border-radius:22px; padding:1px; pointer-events:none;
+  background:linear-gradient(140deg,color-mix(in srgb,var(--accent) 55%,transparent),transparent 45%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude; opacity:0; transition:opacity .5s;
+}
+.card:hover::after{ opacity:1 }
+
+/* gradient primary button */
+.btn{ background:linear-gradient(135deg,var(--c1),var(--c2)); color:#05060b; font-weight:700 }
+.btn:hover{ box-shadow:0 16px 54px -14px var(--c2) }
+
+/* decorative animated divider plate used between sections */
+.plate{
+  position:relative; margin:48px auto; width:100%; max-width:760px; height:1px;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--accent) 60%,transparent),transparent);
+}
+.plate::before{
+  content:""; position:absolute; top:50%; left:50%; width:8px; height:8px; border-radius:50%;
+  transform:translate(-50%,-50%); background:var(--accent);
+  box-shadow:0 0 18px 4px var(--accent); animation:pulse 4s ease-in-out infinite;
+}
+
+/* breathing ring: richer rim */
+.br-orb{ box-shadow:0 0 60px 8px color-mix(in srgb,var(--c2) 30%,transparent) }
+.br-label{ font-family:var(--font-display),Georgia,serif; font-weight:500 }

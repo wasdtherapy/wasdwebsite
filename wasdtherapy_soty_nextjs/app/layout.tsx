@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Manrope, Spectral, JetBrains_Mono } from "next/font/google";
 import Scene from "@/components/Scene";
 import Nav from "@/components/Nav";
 import Cursor from "@/components/Cursor";
@@ -9,7 +9,14 @@ import Persistence from "@/components/Persistence";
 import ThemeVars from "@/components/ThemeVars";
 import PageTransition from "@/components/PageTransition";
 
-const sans = Inter({ subsets: ["latin", "cyrillic"], variable: "--font-sans", display: "swap" });
+const sans = Manrope({ subsets: ["latin", "cyrillic"], variable: "--font-sans", display: "swap" });
+const display = Spectral({
+  subsets: ["latin", "cyrillic"],
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
+  display: "swap",
+});
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
@@ -21,11 +28,12 @@ export const viewport: Viewport = { themeColor: "#06070d" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" className={`${sans.variable} ${mono.variable}`}>
+    <html lang="ru" className={`${sans.variable} ${display.variable} ${mono.variable}`}>
       <body>
         <Persistence />
         <ThemeVars />
         <div className="bg-scene"><Scene /></div>
+        <div className="aurora" aria-hidden><i /><i /><i /></div>
         <div className="grain" aria-hidden />
         <div className="vignette" aria-hidden />
         <Cursor />
