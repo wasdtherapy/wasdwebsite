@@ -1,26 +1,22 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useRef, ReactNode } from "react";
 import { gsap } from "gsap";
 
-export default function Cursor() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (window.matchMedia("(hover:none)").matches) return;
-    const el = ref.current!;
-    const xTo = gsap.quickTo(el, "x", { duration: 0.4, ease: "power3" });
-    const yTo = gsap.quickTo(el, "y", { duration: 0.4, ease: "power3" });
-    const move = (e: PointerEvent) => { xTo(e.clientX); yTo(e.clientY); };
-    const isHot = (t: EventTarget | null) => t instanceof HTMLElement && !!t.closest("a,button,input,.card");
-    const over = (e: Event) => { if (isHot(e.target)) el.classList.add("big"); };
-    const out = (e: Event) => { if (isHot(e.target)) el.classList.remove("big"); };
-    window.addEventListener("pointermove", move);
-    document.addEventListener("pointerover", over);
-    document.addEventListener("pointerout", out);
-    return () => {
-      window.removeEventListener("pointermove", move);
-      document.removeEventListener("pointerover", over);
-      document.removeEventListener("pointerout", out);
-    };
-  }, []);
-  return <div ref={ref} className="cursor" aria-hidden />;
+export default function Magnetic({ children, strength = 0.4 }: { children: ReactNode; strength?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const onMove = (e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const x = e.clientX - (r.left + r.width / 2);
+    const y = e.clientY - (r.top + r.height / 2);
+    gsap.to(el, { x: x * strength, y: y * strength, duration: 0.6, ease: "power3.out" });
+  };
+  const onLeave = () => {
+    const el = ref.current;
+    if (el) gsap.to(el, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1,0.4)" });
+  };
+  return (
+    <span ref={ref} className="magnetic" onMouseMove={onMove} onMouseLeave={onLeave}>{children}</span>
+  );
 }

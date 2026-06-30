@@ -294,3 +294,46 @@ body{ font-family:var(--font-sans),system-ui,sans-serif; letter-spacing:.002em }
 /* breathing ring: richer rim */
 .br-orb{ box-shadow:0 0 60px 8px color-mix(in srgb,var(--c2) 30%,transparent) }
 .br-label{ font-family:var(--font-display),Georgia,serif; font-weight:500 }
+
+/* ============ themed animated illustrations ============ */
+.illus{ width:100%; max-width:440px; margin:6px auto 22px; pointer-events:none }
+.ill-svg{ width:100%; height:auto; display:block; overflow:visible }
+
+/* night: twinkling stars + crescent moon */
+.illus .stars circle{ fill:var(--accent); animation:twinkle 3.2s ease-in-out infinite }
+.illus .stars circle:nth-child(2n){ animation-duration:4.4s; animation-delay:.4s }
+.illus .stars circle:nth-child(3n){ animation-duration:5.1s; animation-delay:.9s }
+.illus .stars circle:nth-child(5n){ animation-delay:1.5s }
+@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
+
+/* waves: drifting calm water */
+.illus-waves .ill-svg path{ fill:none; stroke-width:2.4; stroke-linecap:round }
+.illus-waves .ill-svg path:nth-child(1){ stroke:var(--c1); opacity:.75; animation:sway 8s linear infinite }
+.illus-waves .ill-svg path:nth-child(2){ stroke:var(--c2); opacity:.5; animation:sway 12s linear infinite }
+.illus-waves .ill-svg path:nth-child(3){ stroke:var(--accent); opacity:.32; animation:sway 17s linear infinite }
+@keyframes sway{from{transform:translateX(0)}to{transform:translateX(-120px)}}
+
+/* sunrise: bobbing sun with shimmering rays */
+.illus .sun-rise{ animation:rise 6s ease-in-out infinite }
+@keyframes rise{0%,100%{transform:translateY(7px)}50%{transform:translateY(0)}}
+.illus .ray{ stroke:var(--accent); stroke-width:2.2; stroke-linecap:round; animation:rayp 3.6s ease-in-out infinite }
+.illus .rays line:nth-child(2n){ animation-delay:.5s }
+.illus .rays line:nth-child(3n){ animation-delay:1s }
+@keyframes rayp{0%,100%{opacity:.22}50%{opacity:.9}}
+.illus .sun-disc{ fill:var(--accent) }
+.illus .horizon{ stroke:var(--dim); stroke-width:1.5; opacity:.4 }
+
+/* rain: cloud + falling drops */
+.illus .cloud{ fill:var(--c2); opacity:.22 }
+.illus .drop{ stroke:var(--c2); stroke-width:2.2; stroke-linecap:round; animation:rainfall 1.4s linear infinite }
+.illus .drops line:nth-child(2n){ animation-duration:1.7s; animation-delay:.3s }
+.illus .drops line:nth-child(3n){ animation-duration:1.2s; animation-delay:.6s }
+.illus .drops line:nth-child(4n){ animation-delay:.9s }
+@keyframes rainfall{0%{transform:translateY(-10px);opacity:0}25%{opacity:.85}100%{transform:translateY(78px);opacity:0}}
+
+/* sparkles: pulsing 4-point stars */
+.illus .spark{ fill:var(--accent); transform-box:fill-box; transform-origin:center; animation:sparkle 3.6s ease-in-out infinite }
+.illus .sparks g:nth-child(2n) .spark{ animation-delay:.6s; fill:var(--c1) }
+.illus .sparks g:nth-child(3n) .spark{ animation-delay:1.2s; fill:var(--c2) }
+.illus .sparks g:nth-child(4n) .spark{ animation-delay:1.8s }
+@keyframes sparkle{0%,100%{transform:scale(.35);opacity:.25}50%{transform:scale(1);opacity:1}}

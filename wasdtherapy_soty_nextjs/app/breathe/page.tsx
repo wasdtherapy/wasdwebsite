@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import BreathRing, { Phase } from "@/components/BreathRing";
+import Illustration from "@/components/Illustration";
 import { useStore } from "@/lib/store";
 
 type Tech = { id: string; ru: string; en: string; dr: string; de: string; phases: Phase[] };
@@ -32,6 +33,7 @@ export default function Breathe() {
     <section className="tool">
       <h1>{t("Дыхание", "Breathe")}</h1>
       <p className="sub">{t("Выбери технику и следуй за кольцом: расширяется — вдох, сжимается — выдох.", "Pick a technique and follow the ring: it grows on the inhale, shrinks on the exhale.")}</p>
+      <Illustration variant="waves" />
       <div className="seg">
         {TECHS.map((x, i) => (
           <button key={x.id} className={i === ti ? "chip on" : "chip"} onClick={() => setTi(i)}>{t(x.ru, x.en)}</button>

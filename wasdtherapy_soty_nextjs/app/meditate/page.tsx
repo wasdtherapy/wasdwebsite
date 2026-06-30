@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import BreathRing, { Phase } from "@/components/BreathRing";
 import { useStore } from "@/lib/store";
 import { setLayer } from "@/lib/soundscape";
+import Illustration from "@/components/Illustration";
 
 const PH: Phase[] = [
   { ru: "вдох", en: "inhale", dur: 5, scale: 1 },
@@ -63,6 +64,7 @@ export default function Meditate() {
     <section className="tool">
       <h1>{t("Медитация", "Meditate")}</h1>
       <p className="sub">{t("Гайдовая практика с мягкими подсказками и поющими чашами. Просто следуй за дыханием.", "A guided practice with gentle prompts and singing bowls. Just follow the breath.")}</p>
+      <Illustration variant="night" />
       <div className="seg">
         {SESSIONS.map((m) => (
           <button key={m} className={m === min ? "chip on" : "chip"} onClick={() => { setRunning(false); setElapsed(0); setMin(m); }}>{m} {t("мин", "min")}</button>

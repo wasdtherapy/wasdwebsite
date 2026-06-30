@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useStore } from "@/lib/store";
+import Illustration from "@/components/Illustration";
 
 type Aff = { ru: string; en: string; cat_ru: string; cat_en: string };
 const AFF: Aff[] = [
@@ -37,6 +38,7 @@ export default function Affirmations() {
     <section className="tool">
       <h1>{t("Аффирмации", "Affirmations")}</h1>
       <p className="sub">{t("Тёплые фразы, чтобы вернуть себе опору. Читай медленно, про себя или вслух.", "Warm phrases to steady yourself. Read slowly, silently or aloud.")}</p>
+      <Illustration variant="sparkles" />
       <div className="aff-wrap">
         <div className="aff-card" key={i}>
           <div className="aff-text">{t(a.ru, a.en)}</div>

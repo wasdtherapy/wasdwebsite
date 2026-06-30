@@ -1,6 +1,7 @@
 "use client";
 import { useStore } from "@/lib/store";
 import { LAYERS, setLayer as audioSetLayer, setLayerVolume as audioSetVolume } from "@/lib/soundscape";
+import Illustration from "@/components/Illustration";
 
 type Preset = { id: string; ru: string; en: string; layers: Record<string, number> };
 const PRESETS: Preset[] = [
@@ -41,6 +42,7 @@ export default function Sounds() {
     <section className="tool">
       <h1>{t("Звуки", "Sounds")}</h1>
       <p className="sub">{t("Собери свою атмосферу. Каждый слой синтезируется в реальном времени и никогда не повторяется.", "Build your own atmosphere. Every layer is synthesized live and never repeats.")}</p>
+      <Illustration variant="rain" />
       <div className="presets">
         {PRESETS.map((p) => (
           <button key={p.id} className="chip" onClick={() => applyPreset(p)}>{t(p.ru, p.en)}</button>

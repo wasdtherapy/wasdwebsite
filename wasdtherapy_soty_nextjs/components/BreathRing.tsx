@@ -1,52 +1,49 @@
 "use client";
-import { useMemo, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
-import * as THREE from "three";
-import { useStore, Palette } from "@/lib/store";
-import { vertexShader, fragmentShader } from "@/components/shaders/orb";
+import { useEffect, useRef, useState } from "react";
+import { useStore } from "@/lib/store";
 
-const PALETTES: Record<Palette, [string, string]> = {
-  aurora: ["#7cf6c8", "#7aa2ff"],
-  nebula: ["#ff8bd0", "#a06bff"],
-  abyss: ["#6fe3ff", "#5b8cff"],
-  ember: ["#ffd27a", "#ff8f5b"],
-  bio: ["#b6ff7a", "#5bff9f"],
-};
+export type Phase = { ru: string; en: string; dur: number; scale: number };
 
-export default function OrbField() {
-  const mesh = useRef<THREE.Mesh>(null!);
-  const uniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uLevel: { value: 0 },
-      uColorA: { value: new THREE.Color(PALETTES.aurora[0]) },
-      uColorB: { value: new THREE.Color(PALETTES.aurora[1]) },
-    }),
-    []
-  );
-  useFrame((_, dt) => {
-    const { audioLevel, palette } = useStore.getState();
-    uniforms.uTime.value += dt;
-    uniforms.uLevel.value += (audioLevel - uniforms.uLevel.value) * 0.08;
-    const [a, b] = PALETTES[palette] ?? PALETTES.aurora;
-    uniforms.uColorA.value.lerp(new THREE.Color(a), 0.05);
-    uniforms.uColorB.value.lerp(new THREE.Color(b), 0.05);
-    if (mesh.current) {
-      mesh.current.rotation.y += dt * 0.06;
-      mesh.current.rotation.x += dt * 0.02;
+export default function BreathRing({ phases, running, onCycle }: { phases: Phase[]; running: boolean; onCycle?: () => void }) {
+  const lang = useStore((s) => s.lang);
+  const level = useStore((s) => s.audioLevel);
+  const [idx, setIdx] = useState(0);
+  const [count, setCount] = useState(phases[0]?.dur ?? 4);
+  const ringRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { if (!running) setIdx(0); }, [running]);
+
+  useEffect(() => {
+    if (!running) {
+      const el = ringRef.current;
+      if (el) { el.style.transition = "transform 1.2s ease"; el.style.transform = "scale(0.72)"; }
+      return;
     }
-  });
+    const ph = phases[idx];
+    const el = ringRef.current;
+    if (el) {
+      el.style.transition = `transform ${ph.dur}s cubic-bezier(.37,0,.45,1)`;
+      el.style.transform = `scale(${ph.scale})`;
+    }
+    setCount(ph.dur);
+    const cd = setInterval(() => setCount((c) => (c > 1 ? c - 1 : c)), 1000);
+    const t = setTimeout(() => {
+      const next = (idx + 1) % phases.length;
+      if (next === 0 && onCycle) onCycle();
+      setIdx(next);
+    }, ph.dur * 1000);
+    return () => { clearTimeout(t); clearInterval(cd); };
+  }, [idx, running, phases]);
+
+  const ph = phases[idx];
+  const glowStyle = { boxShadow: `0 0 ${50 + level * 130}px ${8 + level * 34}px var(--c2)` };
   return (
-    <mesh ref={mesh}>
-      <icosahedronGeometry args={[1.4, 48]} />
-      <shaderMaterial
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        uniforms={uniforms}
-        transparent
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-      />
-    </mesh>
+    <div className="breathring">
+      <div className="br-aura" />
+      <div ref={ringRef} className="br-orb" style={glowStyle}>
+        <div className="br-label">{running ? (lang === "ru" ? ph.ru : ph.en) : lang === "ru" ? "готов?" : "ready?"}</div>
+        {running && <div className="br-count">{count}</div>}
+      </div>
+    </div>
   );
 }

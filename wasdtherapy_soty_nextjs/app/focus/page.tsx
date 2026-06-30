@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useStore } from "@/lib/store";
 import { startPad, stopPad } from "@/lib/audio";
+import Illustration from "@/components/Illustration";
 
 const PRESETS = [
   { id: "classic", ru: "Классика 25/5", en: "Classic 25/5", work: 25, brk: 5 },
@@ -38,6 +39,7 @@ export default function Focus() {
     <section className="tool">
       <h1>{t("Фокус", "Focus")}</h1>
       <p className="sub">{t("Работай сосредоточенно, потом отдыхай. Ритм помогает мозгу не выгорать.", "Work with intent, then rest. The rhythm keeps your mind from burning out.")}</p>
+      <Illustration variant="sunrise" />
       <div className="seg">
         {PRESETS.map((x, i) => (
           <button key={x.id} className={i === pi ? "chip on" : "chip"} onClick={() => setPi(i)}>{t(x.ru, x.en)}</button>
